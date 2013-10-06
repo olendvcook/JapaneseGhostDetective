@@ -10,9 +10,7 @@ Player::Player(
 	AnimatedSprite(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity)
 {
 	//add animations idle/walk/jump
-	mAnimations.insert(mAnimations.begin(), Animation(2));
-	mAnimations.insert(mAnimations.begin(), Animation(2));
-	mAnimations.insert(mAnimations.begin(), Animation(2));
+	mAnimations.insert(mAnimations.begin(), Animation(1));
 	//mSprite.scale(4,4);
 	//start playing idle animation
 	AnimatedSprite::startAnimation();
