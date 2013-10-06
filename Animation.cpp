@@ -27,7 +27,7 @@ void Animation::animate()
 			if(isUpOrDown)
 			{
 				mCurrentFrame++;
-				if(mCurrentFrame == mMaxFrames)
+				if(mCurrentFrame == mMaxFrames -1)
 					isUpOrDown = false;
 			}
 			else

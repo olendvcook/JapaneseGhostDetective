@@ -13,8 +13,17 @@ Grave::Grave(sf::Vector2f pPosition,
 		mReleaseTime(pReleaseTime),
 		mClock()
 {
-	mAnimations.insert(mAnimations.begin(), Animation(8,.12, true));
+	//this is how u random
+	std::random_device rd; 
+    std::mt19937 eng(rd()); 
+    std::uniform_real_distribution<> dis(0.12, 0.17); 
+	//-----------------------------------------------
+	mAnimations.insert(mAnimations.begin(), Animation(8,dis(eng), true));
 	AnimatedSprite::startAnimation();
+
+	mSprite.scale(0.7,0.7);
+	mSpriteSize.x *= 0.7;
+	mSpriteSize.y *= 0.7;
 }
 
 

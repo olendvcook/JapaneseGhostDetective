@@ -1,5 +1,6 @@
 #pragma once
 #include "enemy.h"
+#include <random>
 class Grave :
 	public Enemy
 {

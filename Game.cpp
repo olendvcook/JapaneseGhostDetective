@@ -7,6 +7,10 @@ Game::Game(Textures *pSpriteSheet) :
 	mBall(sf::Vector2f(200,100), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL)))
 {
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
+	addGrave(300,300,5);
+	addGrave(300,400,5);
+	addGrave(100,400,5);
+	addGrave(200,400,5);
 }
 
 Game::~Game(void)
@@ -71,6 +75,11 @@ void Game::update()
 			removeEnemy(i);
 			continue;
 		}	
+	}
+
+	for(int i = 0; i < mGraves.size(); i++)
+	{
+		mGraves[i]->update();
 	}
 	
 	//check for gameover state
