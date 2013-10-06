@@ -9,6 +9,8 @@ Player::Player(
 		float pAngularVelocity) :
 	AnimatedSprite(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity)
 {
+	isLeft = false;
+	isRight = false;
 	//add animations idle/walk/jump
 	mAnimations.insert(mAnimations.begin(), Animation(1));
 	//mSprite.scale(4,4);
@@ -25,32 +27,47 @@ Player::~Player(void)
 void Player::update()
 {
 	//right now just moves and switches animations
-	switch(mPlayerState)
+	if(isRight && !isLeft)
 	{
-	case(pLEFT):
-		mVelocity = sf::Vector2f(-mSpeed, 0);
-		AnimatedSprite::setCurrentAnimation(2);
-		//mSprite.setScale(-4.f,4.f);
-		break;
-	case(pRIGHT):
-		mVelocity = sf::Vector2f(mSpeed, 0);
-		AnimatedSprite::setCurrentAnimation(2);
-		//mSprite.setScale(4.f,4.f);
-		break;
-	case(pUP):
-		mVelocity = sf::Vector2f(0, -mSpeed);
-		AnimatedSprite::setCurrentAnimation(1);
-		break;
-	case(pDOWN):
-		mVelocity = sf::Vector2f(0, +mSpeed);
-		AnimatedSprite::setCurrentAnimation(2);
-		break;
-	case(pNONE):
-		AnimatedSprite::setCurrentAnimation(0);
-		mVelocity = sf::Vector2f(0, 0);
-		break;
-	default:
-		break;
+		if(mVelocity.x >= mMaxSpeed)
+		{
+			mVelocity.x = mMaxSpeed;
+		}
+		else
+		{
+			mVelocity.x += mSpeed;
+		}
+	}
+	else if(isLeft && !isRight)
+	{
+		if(abs(mVelocity.x) >= abs(mMaxSpeed))
+		{
+			mVelocity.x = -mMaxSpeed;
+		}
+		else
+		{
+			mVelocity.x -= mSpeed;
+		}
+	}
+	else
+	{
+		if (mVelocity.x > 0)
+			mVelocity.x -= mSpeed;
+		else if (mVelocity.x < 0)
+			mVelocity.x += mSpeed;
+		else
+			mVelocity.x = 0;
+	}
+
+	if(mPosition.x <= 15 + mSpriteSize.x/2)
+	{
+		mPosition.x = 16 + mSpriteSize.x/2;
+		mVelocity.x = -(mVelocity.x + mSpeed);
+	}
+	if(mPosition.x >= WindowWidth - 15 - mSpriteSize.x/2)
+	{
+		mPosition.x = WindowWidth - 16 - mSpriteSize.x/2;
+		mVelocity.x = -(mVelocity.x - mSpeed);
 	}
 	//call superclass update
 	AnimatedSprite::update();

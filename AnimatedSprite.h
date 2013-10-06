@@ -2,6 +2,7 @@
 
 #include "Animation.h"
 #include <SFML\Graphics.hpp>
+#include "Includes.h"
 
 //A Entity that holds arrays of animation to display an animated sprite using a sprite sheet
 //Has basic entity stuff like position, size, velocity

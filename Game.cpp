@@ -3,14 +3,14 @@
 //takes in pointer to class that hold spritesheets so entities can be created with certain spritesheet
 Game::Game(Textures *pSpriteSheet) :
 	mTextures(pSpriteSheet),
-	mPlayer(sf::Vector2f(200,200), sf::Vector2f(0,0), sf::Vector2i(64,16), (pSpriteSheet->getTexture(sPLAYER))),
-	mBall(sf::Vector2f(200,100), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL)))
+	mPlayer(sf::Vector2f(WindowWidth/2,WindowHeight -40), sf::Vector2f(0,0), sf::Vector2i(64,16), (pSpriteSheet->getTexture(sPLAYER))),
+	mBall(sf::Vector2f(WindowWidth/2,WindowHeight -100), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL)))
 {
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
-	addGrave(300,300,5);
-	addGrave(300,400,5);
-	addGrave(100,400,5);
-	addGrave(200,400,5);
+	addGrave(300,100,5);
+	addGrave(300,200,5);
+	addGrave(100,200,5);
+	addGrave(200,200,5);
 }
 
 Game::~Game(void)
@@ -115,16 +115,22 @@ void Game::input(sf::Event *pEvent)
 	//change state of player based on what key is pressed
 	case(sf::Event::KeyPressed):
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			mPlayer.setPlayerState(pLEFT);
+		{
+			mPlayer.setIsLeft(true);
+		}
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			mPlayer.setPlayerState(pRIGHT);
+		{
+			mPlayer.setIsRight(true);
+		}
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			mPlayer.setPlayerState(pDOWN);
+		{
+		}
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			mPlayer.setPlayerState(pUP);
+		{
+		}
 
 		//created to test for memory leaks
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
@@ -132,7 +138,10 @@ void Game::input(sf::Event *pEvent)
 		}
 		break;
 	case(sf::Event::KeyReleased):
-		mPlayer.setPlayerState(pNONE);
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			mPlayer.setIsLeft(false);
+		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			mPlayer.setIsRight(false);
 		break;
 	default:
 		break;
