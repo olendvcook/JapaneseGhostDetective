@@ -12,6 +12,7 @@ protected:
 	sf::Vector2f mPosition;
 	sf::Vector2f mVelocity;
 	sf::Vector2i mSize;
+	sf::Vector2i mSpriteSize;
 	//for rotation
 	float mAngle;
 	float mAngularVelocity;
@@ -48,4 +49,7 @@ public:
 	//get bounds in global space for use in collision detection
 	virtual sf::FloatRect getBounds() { return mSprite.getGlobalBounds(); }
 	virtual sf::Vector2f getPosition() { return mPosition; }
+	virtual sf::Vector2i getSize() { return mSpriteSize; }
+	virtual void setVelocity(float pX, float pY) { mVelocity = sf::Vector2f(pX,pY); };
+	virtual void setPosition(float pX, float pY) { mPosition = sf::Vector2f(pX,pY); };
 };

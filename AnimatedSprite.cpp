@@ -14,6 +14,7 @@ AnimatedSprite::AnimatedSprite(
 		mPosition(pPosition),
 		mVelocity(pVelocity),
 		mSize(pSize),
+		mSpriteSize(pSize),
 		mAngle(pAngle),
 		mAngularVelocity(pAngularVelocity),
 		mCurrentAnimation(0),

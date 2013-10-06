@@ -3,7 +3,7 @@
 //takes in pointer to class that hold spritesheets so entities can be created with certain spritesheet
 Game::Game(Textures *pSpriteSheet) :
 	mTextures(pSpriteSheet),
-	mPlayer(sf::Vector2f(200,200), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sPLAYER)))
+	mPlayer(sf::Vector2f(200,200), sf::Vector2f(0,0), sf::Vector2i(64,16), (pSpriteSheet->getTexture(sPLAYER)))
 {
 	//hardcoded enemies because time
 	for(int i = 0; i < 100; i++)
@@ -20,7 +20,7 @@ Game::~Game(void)
 void Game::addEnemy()
 {
 	//if no delete before removed u get memory leaks
-	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(450,400), sf::Vector2f(0,0), sf::Vector2i(32,32), (mTextures->getTexture(sBURGER))));
+	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(450,400), sf::Vector2f(0,0), sf::Vector2i(32,32), (mTextures->getTexture(sGHOST))));
 }
 
 void Game::removeEnemy(int pIndex)

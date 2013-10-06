@@ -11,13 +11,25 @@ Textures::Textures(void)
 	texture1.loadFromFile("Assets/playerSheet.png");
 	mSheets.insert(mSheets.end(), texture1);
 
-	texture1.loadFromFile("Assets/burgerSheet.png");
+	texture1.loadFromFile("Assets/ghostSheet.png");
 	mSheets.insert(mSheets.end(), texture1);
 
 	texture1.loadFromFile("Assets/background.png");
 	mSheets.insert(mSheets.end(), texture1);
 
 	texture1.loadFromFile("Assets/gameover.png");
+	mSheets.insert(mSheets.end(), texture1);
+
+	texture1.loadFromFile("Assets/gravesheet.png");
+	mSheets.insert(mSheets.end(), texture1);
+
+	texture1.loadFromFile("Assets/gamebackground.png");
+	mSheets.insert(mSheets.end(), texture1);
+
+	texture1.loadFromFile("Assets/paused.png");
+	mSheets.insert(mSheets.end(), texture1);
+
+	texture1.loadFromFile("Assets/complete.png");
 	mSheets.insert(mSheets.end(), texture1);
 }
 

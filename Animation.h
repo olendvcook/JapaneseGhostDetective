@@ -8,13 +8,15 @@ class Animation
 private:
 	int mCurrentFrame;
 	int mMaxFrames;
+	bool isUpOrDown;
+	bool isEscalator;
 
 	//control how fast to iterate to play animations faster/slower
 	float mAnimateSpeed;
 	sf::Clock mClock;
 
 public:
-	Animation(int pMaxFrames, float pAnimateSpeed = 0.3);
+	Animation(int pMaxFrames, float pAnimateSpeed = 0.3, bool pIsEscalator = false);
 	virtual ~Animation(void);
 
 	void animate();

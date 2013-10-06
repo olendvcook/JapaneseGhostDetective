@@ -8,7 +8,7 @@
 //Entitie Sprites hold pointers to these spritesheets
 
 //spritesheet type
-enum SPRITESHEETS { sBUTTONS, sPLAYER, sBURGER, sBACKGROUND, sGAMEOVER};
+enum SPRITESHEETS { sBUTTONS, sPLAYER, sGHOST, sBACKGROUND, sGAMEOVER, sGRAVE, sGAMEBACKGROUND, sPAUSED, sCOMPLETE};
 class Textures
 {
 private:

@@ -11,7 +11,7 @@ enum ENEMYSTATE { eLEFT, eRIGHT, eNONE };
 class Enemy :
 	public AnimatedSprite
 {
-private:
+protected:
 	ENEMYSTATE mEnemyState;
 public:
 	Enemy(sf::Vector2f pPosition, 

@@ -13,7 +13,7 @@ Player::Player(
 	mAnimations.insert(mAnimations.begin(), Animation(2));
 	mAnimations.insert(mAnimations.begin(), Animation(2));
 	mAnimations.insert(mAnimations.begin(), Animation(2));
-	mSprite.scale(4,4);
+	//mSprite.scale(4,4);
 	//start playing idle animation
 	AnimatedSprite::startAnimation();
 	mPlayerState = pNONE;
@@ -32,12 +32,12 @@ void Player::update()
 	case(pLEFT):
 		mVelocity = sf::Vector2f(-mSpeed, 0);
 		AnimatedSprite::setCurrentAnimation(2);
-		mSprite.setScale(-4.f,4.f);
+		//mSprite.setScale(-4.f,4.f);
 		break;
 	case(pRIGHT):
 		mVelocity = sf::Vector2f(mSpeed, 0);
 		AnimatedSprite::setCurrentAnimation(2);
-		mSprite.setScale(4.f,4.f);
+		//mSprite.setScale(4.f,4.f);
 		break;
 	case(pUP):
 		mVelocity = sf::Vector2f(0, -mSpeed);
