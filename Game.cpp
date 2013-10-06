@@ -3,14 +3,15 @@
 //takes in pointer to class that hold spritesheets so entities can be created with certain spritesheet
 Game::Game(Textures *pSpriteSheet) :
 	mTextures(pSpriteSheet),
-	mPlayer(sf::Vector2f(WindowWidth/2,WindowHeight -40), sf::Vector2f(0,0), sf::Vector2i(64,16), (pSpriteSheet->getTexture(sPLAYER))),
-	mBall(sf::Vector2f(WindowWidth/2,WindowHeight -100), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL)))
+	mPlayer(sf::Vector2f(WindowWidth/2,WindowHeight -40), sf::Vector2f(0,0), sf::Vector2i(96,16), (pSpriteSheet->getTexture(sPLAYER))),
+	mBall(sf::Vector2f(WindowWidth/2,WindowHeight -60), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL))),
+	mNumofLives(3),
+	mTownHealth(11),
+	mCurrentLevel(0),
+	mMaxLevel(8)
 {
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
-	addGrave(300,100,5);
-	addGrave(300,200,5);
-	addGrave(100,200,5);
-	addGrave(200,200,5);
+	nextlevel();
 }
 
 Game::~Game(void)
@@ -21,7 +22,7 @@ Game::~Game(void)
 void Game::addEnemy(float pX, float pY)
 {
 	//if no delete before removed u get memory leaks
-	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(450,400), sf::Vector2f(0,0), sf::Vector2i(32,32), (mTextures->getTexture(sGHOST))));
+	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(pX, pY), sf::Vector2f(0,.7), sf::Vector2i(32,32), (mTextures->getTexture(sGHOST))));
 }
 
 void Game::removeEnemy(int pIndex)
@@ -46,14 +47,31 @@ void Game::update()
 {
 	//call each entity update
 	mPlayer.update();
+	mBall.update();
+
+	if(mBall.getVelocity().y == 0)
+	{
+		mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
+	}
+
+	//if ball hits paddle
+	if(mBall.getBounds().intersects(mPlayer.getBounds()))
+	{
+		//120 degrees in radians
+		float mMaxBounceAngle = 2.0943951;
+		float relativeIntersectX = -(mPlayer.getPosition().x - mBall.getPosition().x);
+		float normalizedRelativeIntersectionX = (relativeIntersectX/mPlayer.getSize().x/2);
+		float bounceAngle = normalizedRelativeIntersectionX * mMaxBounceAngle;
+
+		float newSpeedX = (6 * sin(bounceAngle) + (mPlayer.getVelocity().x * 0.3));
+		float newSpeedY = 6 * -cos(bounceAngle);
+
+		mBall.setVelocity(newSpeedX, newSpeedY);
+
+	}
+
 	for(int i = 0; i < mEnemies.size(); i++)
 	{	
-		//bounds check each enemy with player
-		if(mPlayer.getPosition().x < (mEnemies[i]->getPosition().x - 50) && mPlayer.getPosition().x > (mEnemies[i]->getPosition().x - 80))
-			mEnemies[i]->setEnemyState(eRIGHT);
-		else if(mPlayer.getPosition().x > (mEnemies[i]->getPosition().x + 50) && mPlayer.getPosition().x < (mEnemies[i]->getPosition().x + 80))
-			mEnemies[i]->setEnemyState(eLEFT);
-		else mEnemies[i]->setEnemyState(eNONE);
 
 		//update enemy
 		mEnemies[i]->update();
@@ -72,16 +90,72 @@ void Game::update()
 		}
 		if(mEnemies[i]->getPosition().y > WindowHeight || mEnemies[i]->getPosition().y < 0)
 		{
+			mTownHealth -= 10;
 			removeEnemy(i);
 			continue;
-		}	
+		}
+
+		//colision with ball
+		if(mBall.getBounds().intersects(mEnemies[i]->getBounds()))
+		{
+			if(mBall.getPosition().y >= mEnemies[i]->getPosition().y - mEnemies[i]->getSize().y/2 &&
+				mBall.getPosition().y <= mEnemies[i]->getPosition().y + mEnemies[i]->getSize().y/2)
+			{
+				mBall.setVelocity(- mBall.getVelocity().x, mBall.getVelocity().y);
+			}
+			else
+			{
+				mBall.setVelocity(mBall.getVelocity().x, -mBall.getVelocity().y);
+			}
+			removeEnemy(i);
+			continue;
+		}
 	}
 
 	for(int i = 0; i < mGraves.size(); i++)
 	{
 		mGraves[i]->update();
+
+		if(mGraves[i]->checkIfTime())
+		{
+			addEnemy(mGraves[i]->getPosition().x, mGraves[i]->getPosition().y);
+		}
+
+		//colision with ball
+		if(mBall.getBounds().intersects(mGraves[i]->getBounds()))
+		{
+			if(mBall.getPosition().y >= mGraves[i]->getPosition().y - mGraves[i]->getSize().y/2 &&
+				mBall.getPosition().y <= mGraves[i]->getPosition().y + mGraves[i]->getSize().y/2)
+			{
+				mBall.setVelocity(- mBall.getVelocity().x, mBall.getVelocity().y);
+			}
+			else
+			{
+				mBall.setVelocity(mBall.getVelocity().x, -mBall.getVelocity().y);
+			}
+			removeGrave(i);
+			continue;
+		}
 	}
 	
+	if(mBall.getPosition().y >= WindowHeight - mBall.getSize().y)
+	{
+		//mNumofLives--;
+		if(mNumofLives > 0)
+		{
+			mBall.setVelocity(0,0);
+			mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
+		}
+		else
+		{
+			mGameState = gGAMEOVER;
+		}
+	}
+
+	if(mGraves.size() <= 0)
+	{
+		nextlevel();
+	}
 	//check for gameover state
 	//if(mEnemies.size() == 0)
 	//	mGameState = gGAMEOVER;
@@ -130,6 +204,7 @@ void Game::input(sf::Event *pEvent)
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
+			mBall.setVelocity(mPlayer.getVelocity().x, -5);
 		}
 
 		//created to test for memory leaks
@@ -165,4 +240,70 @@ void Game::quit()
 	{
 		removeGrave(i);
 	}
+}
+
+void Game::nextlevel()
+{
+	mCurrentLevel++;
+
+	if(mCurrentLevel >= mMaxLevel)
+	{
+		//switch to game win state
+	}
+	else
+	{
+		switch(mCurrentLevel)
+		{
+		case(1):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(2):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(3):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(4):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(5):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(6):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(7):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		case(8):
+			addGrave(300,100,5);
+			addGrave(300,200,5);
+			addGrave(100,200,5);
+			addGrave(200,200,5);
+			break;
+		}
+	}
+	mBall.setVelocity(0,0);
+	mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
 }

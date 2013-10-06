@@ -51,6 +51,7 @@ public:
 	virtual sf::FloatRect getBounds() { return mSprite.getGlobalBounds(); }
 	virtual sf::Vector2f getPosition() { return mPosition; }
 	virtual sf::Vector2i getSize() { return mSpriteSize; }
+	virtual sf::Vector2f getVelocity() { return mVelocity; }
 	virtual void setVelocity(float pX, float pY) { mVelocity = sf::Vector2f(pX,pY); };
 	virtual void setPosition(float pX, float pY) { mPosition = sf::Vector2f(pX,pY); };
 };

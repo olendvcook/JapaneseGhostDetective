@@ -29,19 +29,5 @@ void Enemy::update()
 {
 	//call superclass update that handles changing pos by velocity and animates
 	AnimatedSprite::update();
-
-	switch (mEnemyState)
-	{
-	case eLEFT:
-		mVelocity = sf::Vector2f(-5,0);
-		break;
-	case eRIGHT:
-		mVelocity = sf::Vector2f(5,0);
-		break;
-	default:
-		mVelocity = sf::Vector2f(0,0);
-		break;
-	}
-
 }
 

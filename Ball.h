@@ -11,5 +11,6 @@ public:
 		float pAngle = 0, 
 		float pAngularVelocity = 0);
 	virtual ~Ball(void);
+	void update();
 };
 

@@ -23,6 +23,10 @@ private:
 	std::vector<Grave*> mGraves;
 	Textures *mTextures;
 	sf::Sprite mBackground;
+	int mNumofLives;
+	int mTownHealth;
+	int mCurrentLevel;
+	int mMaxLevel;
 public:
 	Game(Textures *pSpriteSheet);
 	virtual ~Game(void);
@@ -36,5 +40,6 @@ public:
 	void addGrave(float pX, float pY, float pReleaseTime);
 	void removeGrave(int pIndex);
 	void quit();
+	void nextlevel();
 };
 
