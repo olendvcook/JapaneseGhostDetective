@@ -23,7 +23,7 @@ void GameLoop::loop()
 	float interpolation;
 	//--------------------------------------------
 	//create window
-	mWindow.create(sf::VideoMode(WindowWidth, WindowHeight), "Tiny Maze");
+	mWindow.create(sf::VideoMode(WindowWidth, WindowHeight), "Japanese Ghost Detective");
 
 	//create container classes
 	Menu mMenu(&mSpriteSheet);
