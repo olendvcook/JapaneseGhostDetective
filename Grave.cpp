@@ -5,20 +5,24 @@ Grave::Grave(sf::Vector2f pPosition,
 		sf::Vector2f pVelocity, 
 		sf::Vector2i pSize, 
 		sf::Texture *pTexture,
-		float pReleaseTime,
+		float pReleaseTimeMin,
+		float pReleaseTimeMax,
 		float pAngle, 
 		float pAngularVelocity) :
 	//call superclass constructor
 		Enemy(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity),
-		mReleaseTime(pReleaseTime),
-		mClock()
+		mClock(),
+		mReleaseTimeMin(pReleaseTimeMin),
+		mReleaseTimeMax(pReleaseTimeMax)
 {
-	//this is how u random
 	std::random_device rd; 
     std::mt19937 eng(rd()); 
-    std::uniform_real_distribution<> dis(0.12, 0.17); 
+    std::uniform_real_distribution<> dis(mReleaseTimeMin, mReleaseTimeMax);
+	mReleaseTime = floor(dis(eng));
+	//this is how u random 
+    std::uniform_real_distribution<> dis2(0.12, 0.17); 
 	//-----------------------------------------------
-	mAnimations.insert(mAnimations.begin(), Animation(8,dis(eng), true));
+	mAnimations.insert(mAnimations.begin(), Animation(8,dis2(eng), true));
 	AnimatedSprite::startAnimation();
 
 	mSprite.scale(0.7,0.7);
@@ -35,6 +39,10 @@ bool Grave::checkIfTime()
 {
 	if(mClock.getElapsedTime().asSeconds() > mReleaseTime)
 	{
+		std::random_device rd; 
+		std::mt19937 eng(rd()); 
+		std::uniform_real_distribution<> dis(mReleaseTimeMin, mReleaseTimeMax);
+		mReleaseTime = floor(dis(eng));
 		mClock.restart();
 		return true;
 	}

@@ -41,7 +41,7 @@ public:
 	void reset();
 	void addEnemy(float pX, float pY);
 	void removeEnemy(int pIndex);
-	void addGrave(float pX, float pY, float pReleaseTime);
+	void addGrave(float pX, float pY, float pReleaseTimeMin, float pReleaseTimeMax);
 	void removeGrave(int pIndex);
 	void quit();
 	void nextlevel();

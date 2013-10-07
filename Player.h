@@ -7,7 +7,7 @@
 //TODO: states are dumb, how can u do more than one at once? move up/left
 enum PLAYERSTATE { pLEFT, pUP, pRIGHT, pDOWN, pJUMP, pNONE };
 static const float mSpeed = 0.5;
-static const float mMaxSpeed = 8;
+static const float mMaxSpeed = 6;
 
 class Player :
 	public AnimatedSprite
