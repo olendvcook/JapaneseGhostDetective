@@ -232,7 +232,8 @@ void Game::input(sf::Event *pEvent)
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			mBall.setVelocity(mPlayer.getVelocity().x, -4);
+			if(mBall.getVelocity().y == 0)
+				mBall.setVelocity(mPlayer.getVelocity().x, -4);
 		}
 
 		//created to test for memory leaks
