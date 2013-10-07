@@ -6,12 +6,24 @@ Game::Game(Textures *pSpriteSheet) :
 	mPlayer(sf::Vector2f(WindowWidth/2,WindowHeight -40), sf::Vector2f(0,0), sf::Vector2i(96,16), (pSpriteSheet->getTexture(sPLAYER))),
 	mBall(sf::Vector2f(WindowWidth/2,WindowHeight -60), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL))),
 	mNumofLives(3),
-	mTownHealth(11),
-	mCurrentLevel(0),
+	mTownHealth(100),
+	mCurrentLevel(6),
 	mMaxLevel(8)
 {
+
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
-	nextlevel();
+	
+	//text stuff
+	mFont.loadFromFile("Assets/powerchord.ttf");
+	mTextLives.setFont(mFont);
+	mTextTown.setFont(mFont);
+	mTextLives.setColor(sf::Color::White);
+	mTextTown.setColor(sf::Color::White);
+	mTextTown.setScale(0.6,0.6);
+	mTextLives.setScale(0.6,0.6);
+	mTextTown.setPosition(30, WindowHeight - 25);
+	mTextLives.setPosition(WindowWidth - 100, WindowHeight - 25);
+
 }
 
 Game::~Game(void)
@@ -46,6 +58,14 @@ void Game::removeGrave(int pIndex)
 void Game::update()
 {
 	//call each entity update
+	std::stringstream ss;
+	ss << "Lives: " << mNumofLives;
+	mTextLives.setString(ss.str());
+	ss.str(std::string());
+	ss << "Town Health: " << mTownHealth;
+	mTextTown.setString(ss.str());
+
+
 	mPlayer.update();
 	mBall.update();
 
@@ -152,12 +172,13 @@ void Game::update()
 		}
 	}
 
-	if(mGraves.size() <= 0)
+	if(mGraves.size() <= 0 && mEnemies.size() <= 0)
 	{
 		nextlevel();
 	}
+
 	//check for gameover state
-	//if(mEnemies.size() == 0)
+	//if(mTownHealth <= 0)
 	//	mGameState = gGAMEOVER;
 }
 
@@ -165,6 +186,12 @@ void Game::update()
 void Game::draw(sf::RenderWindow *window, float pInterpolation)
 {
 	window->draw(mBackground);
+
+
+	window->draw(mTextLives);
+	window->draw(mTextTown);
+
+
 	mPlayer.draw(window, pInterpolation);
 	mBall.draw(window, pInterpolation);
 	
@@ -208,8 +235,9 @@ void Game::input(sf::Event *pEvent)
 		}
 
 		//created to test for memory leaks
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
+			mGameState = gPAUSED;
 		}
 		break;
 	case(sf::Event::KeyReleased):
@@ -249,6 +277,7 @@ void Game::nextlevel()
 	if(mCurrentLevel >= mMaxLevel)
 	{
 		//switch to game win state
+		mGameState = gCOMPLETE;
 	}
 	else
 	{

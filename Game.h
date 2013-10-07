@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Grave.h"
 #include "Ball.h"
+#include <sstream>
 
 //Handles the gameplay state, holds its entities like enemies and player would hold score etc...
 //Handles interaction between entities
@@ -27,6 +28,9 @@ private:
 	int mTownHealth;
 	int mCurrentLevel;
 	int mMaxLevel;
+	sf::Font mFont;
+	sf::Text mTextLives;
+	sf::Text mTextTown;
 public:
 	Game(Textures *pSpriteSheet);
 	virtual ~Game(void);

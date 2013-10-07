@@ -78,6 +78,10 @@ void GameLoop::loop()
 				break;
 			case(gGAMEOVER):
 				break;
+			case(gPAUSED):
+				if(event.type == sf::Event::KeyPressed)
+					mGameState = gGAME;
+				break;
 			default:
 				break;
 			}
@@ -100,6 +104,15 @@ void GameLoop::loop()
 			break;
 		case(gGAMEOVER):
 			gameOver.setTexture(*mSpriteSheet.getTexture(sGAMEOVER));
+			mWindow.draw(gameOver);
+			break;
+		case(gPAUSED):
+			mGame.draw(&mWindow, 0);
+			gameOver.setTexture(*mSpriteSheet.getTexture(sPAUSED));
+			mWindow.draw(gameOver);
+			break;
+		case(gCOMPLETE):
+			gameOver.setTexture(*mSpriteSheet.getTexture(sCOMPLETE));
 			mWindow.draw(gameOver);
 			break;
 		default:
