@@ -7,8 +7,8 @@ Game::Game(Textures *pSpriteSheet) :
 	mBall(sf::Vector2f(WindowWidth/2,WindowHeight -60), sf::Vector2f(0,0), sf::Vector2i(16,16), (pSpriteSheet->getTexture(sBALL))),
 	mNumofLives(3),
 	mTownHealth(100),
-	mCurrentLevel(6),
-	mMaxLevel(8)
+	mCurrentLevel(0),
+	mMaxLevel(9)
 {
 
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
@@ -67,7 +67,6 @@ void Game::update()
 
 
 	mPlayer.update();
-	mBall.update();
 
 	if(mBall.getVelocity().y == 0)
 	{
@@ -171,6 +170,8 @@ void Game::update()
 			mGameState = gGAMEOVER;
 		}
 	}
+
+	mBall.update();
 
 	if(mGraves.size() <= 0 && mEnemies.size() <= 0)
 	{
@@ -284,55 +285,97 @@ void Game::nextlevel()
 		switch(mCurrentLevel)
 		{
 		case(1):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,8);
+			addGrave(440,100,8);
+			addGrave(200,100,8);
 			break;
 		case(2):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,6);
+			addGrave(440,100,8);
+			addGrave(200,100,8);
+			addGrave(320,200,8);
 			break;
 		case(3):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(370,100,6);
+			addGrave(270,100,6);
+			addGrave(320,200,8);
+			addGrave(440,200,8);
+			addGrave(200,200,8);
 			break;
 		case(4):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,5);
+			addGrave(380,100,7);
+			addGrave(260,100,7);
+			addGrave(320,200,8);
+			addGrave(380,200,8);
+			addGrave(260,200,8);
 			break;
 		case(5):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,5);
+			addGrave(380,100,7);
+			addGrave(260,100,7);
+			addGrave(200,100,7);
+			addGrave(440,100,7);
+			addGrave(320,200,8);
+			addGrave(380,200,8);
+			addGrave(260,200,8);
+			addGrave(200,200,8);
+			addGrave(440,200,8);
 			break;
 		case(6):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,5);
+			addGrave(380,100,7);
+			addGrave(260,100,7);
+			addGrave(200,100,7);
+			addGrave(440,100,7);
+			addGrave(320,200,8);
+			addGrave(380,200,8);
+			addGrave(260,200,8);
+			addGrave(200,200,8);
+			addGrave(440,200,8);
+			addGrave(320,300,8);
+			addGrave(380,300,8);
+			addGrave(260,300,8);
+			addGrave(200,300,8);
+			addGrave(440,300,8);
 			break;
 		case(7):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,5);
+			addGrave(440,100,8);
+			addGrave(200,100,8);
+			addGrave(80,100,8);
+			addGrave(560,100,8);
+			addGrave(320,200,8);
+			addGrave(440,200,8);
+			addGrave(200,200,8);
+			addGrave(80,200,8);
+			addGrave(560,200,8);
+			addGrave(320,200,8);
+			addGrave(440,200,8);
+			addGrave(200,200,8);
+			addGrave(80,200,8);
+			addGrave(560,200,8);
 			break;
 		case(8):
-			addGrave(300,100,5);
-			addGrave(300,200,5);
-			addGrave(100,200,5);
-			addGrave(200,200,5);
+			addGrave(320,100,5);
+			addGrave(440,100,6);
+			addGrave(200,100,6);
+			addGrave(80,100,6);
+			addGrave(560,100,6);
+			addGrave(320,200,6);
+			addGrave(440,200,6);
+			addGrave(200,200,6);
+			addGrave(80,200,6);
+			addGrave(560,200,6);
+			addGrave(320,200,6);
+			addGrave(440,200,6);
+			addGrave(200,200,6);
+			addGrave(80,200,6);
+			addGrave(560,200,6);
 			break;
 		}
 	}
+	mPlayer.setPosition(WindowWidth/2,WindowHeight -40);
 	mBall.setVelocity(0,0);
 	mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
 }
