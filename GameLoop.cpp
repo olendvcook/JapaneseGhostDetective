@@ -91,8 +91,6 @@ void GameLoop::loop()
 		interpolation = float(clock.getElapsedTime().asMilliseconds() + SKIP_TICKS - nextGameTick)
 			/ float(SKIP_TICKS);
 
-		sf::Sprite gameOver;
-
 		//draw methods here
 		switch(mGameState)
 		{

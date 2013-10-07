@@ -19,6 +19,7 @@ class GameLoop
 private:
 	sf::RenderWindow mWindow;
 	Textures mSpriteSheet;
+	sf::Sprite gameOver;
 public:
 	GameLoop(void);
 	virtual ~GameLoop(void);

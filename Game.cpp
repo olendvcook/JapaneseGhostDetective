@@ -14,7 +14,7 @@ Game::Game(Textures *pSpriteSheet) :
 	mBackground.setTexture(*pSpriteSheet->getTexture(sGAMEBACKGROUND));
 	
 	//text stuff
-	mFont.loadFromFile("Assets/powerchord.ttf");
+	mFont.loadFromFile("Assets/galaxymonkey.ttf");
 	mTextLives.setFont(mFont);
 	mTextTown.setFont(mFont);
 	mTextLives.setColor(sf::Color::White);
@@ -83,8 +83,8 @@ void Game::update()
 		float normalizedRelativeIntersectionX = (relativeIntersectX/mPlayer.getSize().x/2);
 		float bounceAngle = normalizedRelativeIntersectionX * mMaxBounceAngle;
 
-		float newSpeedX = (6 * sin(bounceAngle) + (mPlayer.getVelocity().x * 0.3));
-		float newSpeedY = 6 * -cos(bounceAngle);
+		float newSpeedX = (4 * sin(bounceAngle) + (mPlayer.getVelocity().x * 0.3));
+		float newSpeedY = 4 * -cos(bounceAngle);
 
 		mBall.setVelocity(newSpeedX, newSpeedY);
 
@@ -231,7 +231,7 @@ void Game::input(sf::Event *pEvent)
 		
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			mBall.setVelocity(mPlayer.getVelocity().x, -5);
+			mBall.setVelocity(mPlayer.getVelocity().x, -4);
 		}
 
 		//created to test for memory leaks
