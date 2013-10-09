@@ -11,10 +11,7 @@ Enemy::Enemy(sf::Vector2f pPosition,
 	AnimatedSprite(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity)
 {
 	//insert animations based on Enemy spriteSheet
-	mAnimations.insert(mAnimations.begin(), Animation(4, 0.2, true));
-	mSprite.scale(0.5,0.5);
-	mSpriteSize.x *= 0.5;
-	mSpriteSize.y *= 0.5;
+	mAnimations.insert(mAnimations.begin(), Animation(4, 0.2, false));
 	//start idle animation
 	AnimatedSprite::startAnimation();
 }

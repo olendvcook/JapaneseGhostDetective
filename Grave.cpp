@@ -24,7 +24,6 @@ Grave::Grave(sf::Vector2f pPosition,
 	//-----------------------------------------------
 	mAnimations.insert(mAnimations.begin(), Animation(8,dis2(eng), true));
 	AnimatedSprite::startAnimation();
-	mSprite.scale(2.0,2.0);
 	mSprite.scale(0.7,0.7);
 	mSpriteSize.x *= 0.7;
 	mSpriteSize.y *= 0.7;

@@ -12,7 +12,7 @@ Player::Player(
 	isLeft = false;
 	isRight = false;
 	//add animations idle/walk/jump
-	mAnimations.insert(mAnimations.begin(), Animation(1));
+	mAnimations.insert(mAnimations.begin(), Animation(4, 0.2, true));
 	//mSprite.scale(4,4);
 	//start playing idle animation
 	AnimatedSprite::startAnimation();
@@ -59,14 +59,14 @@ void Player::update()
 			mVelocity.x = 0;
 	}
 
-	if(mPosition.x <= 15 + mSpriteSize.x/2)
+	if(mPosition.x <= 0 + mSpriteSize.x/2)
 	{
-		mPosition.x = 16 + mSpriteSize.x/2;
+		mPosition.x = 1 + mSpriteSize.x/2;
 		mVelocity.x = -(mVelocity.x + mSpeed);
 	}
-	if(mPosition.x >= WindowWidth - 15 - mSpriteSize.x/2)
+	if(mPosition.x >= WindowWidth - 0 - mSpriteSize.x/2)
 	{
-		mPosition.x = WindowWidth - 16 - mSpriteSize.x/2;
+		mPosition.x = WindowWidth - 1 - mSpriteSize.x/2;
 		mVelocity.x = -(mVelocity.x - mSpeed);
 	}
 	//call superclass update

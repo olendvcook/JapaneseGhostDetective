@@ -10,8 +10,8 @@ Ball::Ball(sf::Vector2f pPosition,
 	//call superclass constructor
 	AnimatedSprite(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity)
 {
-	mAnimations.insert(mAnimations.begin(), Animation(1,.12, false));
-	AnimatedSprite::startAnimation();
+	mAnimations.insert(mAnimations.begin(), Animation(4,.22, true));
+	AnimatedSprite::startAnimation();	
 }
 
 
@@ -21,19 +21,19 @@ Ball::~Ball(void)
 
 void Ball::update()
 {
-	if(mPosition.x <= 15 + mSpriteSize.x/2)
+	if(mPosition.x <= 0 + mSpriteSize.x/2)
 	{
-		mPosition.x = 16 + mSpriteSize.x/2;
+		mPosition.x = 1 + mSpriteSize.x/2;
 		mVelocity.x = -(mVelocity.x );
 	}
-	if(mPosition.x >= WindowWidth - 15 - mSpriteSize.x/2)
+	if(mPosition.x >= WindowWidth - 0 - mSpriteSize.x/2)
 	{
-		mPosition.x = WindowWidth - 16 - mSpriteSize.x/2;
+		mPosition.x = WindowWidth - 1 - mSpriteSize.x/2;
 		mVelocity.x = -(mVelocity.x);
 	}
-	if(mPosition.y <= 15 + mSpriteSize.y/2)
+	if(mPosition.y <= 0 + mSpriteSize.y/2)
 	{
-		mPosition.y = 16 + mSpriteSize.y/2;
+		mPosition.y = 1 + mSpriteSize.y/2;
 		mVelocity.y = -(mVelocity.y);
 	}
 	//call superclass update

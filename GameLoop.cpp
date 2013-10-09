@@ -95,7 +95,7 @@ void GameLoop::loop()
 			case(gCOMPLETE):
 			case(gGAMEOVER):
 				mGame.reset();
-				if(event.type == sf::Event::KeyPressed)
+				if(event.type == sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 					mGameState = gMENU;
 				break;
 			case(gPAUSED):
