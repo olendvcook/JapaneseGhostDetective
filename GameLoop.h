@@ -5,6 +5,7 @@
 #include "Includes.h"
 #include "Game.h"
 #include "Textures.h"
+#include <SFML\Audio.hpp>
 
 //Constant Game Speed indepenent of Variable FPS Game Loop implementation
 //USING: http://www.koonsolo.com/news/dewitters-gameloop/
@@ -20,6 +21,7 @@ private:
 	sf::RenderWindow mWindow;
 	Textures mSpriteSheet;
 	sf::Sprite gameOver;
+	sf::Music song;
 public:
 	GameLoop(void);
 	virtual ~GameLoop(void);

@@ -26,6 +26,17 @@ Game::Game(Textures *pSpriteSheet) :
 
 }
 
+void Game::reset()
+{
+	mCurrentLevel = 0;
+	mTownHealth = 100;
+	mNumofLives = 3;
+	quit();
+	mPlayer.setPosition(WindowWidth/2,WindowHeight -40);
+	mBall.setVelocity(0,0);
+	mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
+}
+
 Game::~Game(void)
 {
 }
@@ -250,11 +261,6 @@ void Game::input(sf::Event *pEvent)
 	default:
 		break;
 	}
-}
-
-//TODO: impliment reset
-void Game::reset()
-{
 }
 
 //handle memory leaks before quitting

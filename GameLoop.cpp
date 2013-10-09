@@ -5,6 +5,10 @@
 GameLoop::GameLoop(void) :
 	mSpriteSheet()
 {
+	sf::SoundBuffer soundBuffer;
+	song.openFromFile("Assets/song.wav");
+	song.play();
+	song.setLoop(true);
 	loop();
 }
 
@@ -15,6 +19,9 @@ GameLoop::~GameLoop(void)
 
 void GameLoop::loop()
 {
+
+
+
 	mGameState = gMENU;
 	//Initialize variables to regulate update speed
 	sf::Clock clock;
@@ -47,10 +54,14 @@ void GameLoop::loop()
 				mMenu.update();
 				break;
 			case(gGAME):
+				if(song.getStatus() == song.Paused)
+					song.play();
 				mGame.update();
 				break;
 			case(gGAMEOVER):
 				break;
+			case(gPAUSED):
+					song.pause();
 			default:
 				break;
 			}
@@ -81,7 +92,11 @@ void GameLoop::loop()
 			case(gGAME):
 				mGame.input(&event);
 				break;
+			case(gCOMPLETE):
 			case(gGAMEOVER):
+				mGame.reset();
+				if(event.type == sf::Event::KeyPressed)
+					mGameState = gMENU;
 				break;
 			case(gPAUSED):
 				if(event.type == sf::Event::KeyPressed)
