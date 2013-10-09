@@ -10,7 +10,7 @@ Ball::Ball(sf::Vector2f pPosition,
 	//call superclass constructor
 	AnimatedSprite(pPosition, pVelocity, pSize, pTexture, pAngle, pAngularVelocity)
 {
-	mAnimations.insert(mAnimations.begin(), Animation(1,.12, true));
+	mAnimations.insert(mAnimations.begin(), Animation(1,.12, false));
 	AnimatedSprite::startAnimation();
 }
 

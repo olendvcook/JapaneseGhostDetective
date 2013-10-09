@@ -67,6 +67,11 @@ void GameLoop::loop()
 				mGame.quit();
 				mWindow.close();
 			}
+			if (event.type == sf::Event::LostFocus || event.type == sf::Event::MouseLeft)
+			{
+				if(mGameState == gGAME)
+					mGameState = gPAUSED;
+			}
 
 			switch(mGameState)
 			{

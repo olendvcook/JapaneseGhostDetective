@@ -34,7 +34,7 @@ Game::~Game(void)
 void Game::addEnemy(float pX, float pY)
 {
 	//if no delete before removed u get memory leaks
-	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(pX, pY), sf::Vector2f(0,.7), sf::Vector2i(32,32), (mTextures->getTexture(sGHOST))));
+	mEnemies.insert(mEnemies.begin(), new Enemy(sf::Vector2f(pX, pY), sf::Vector2f(0,.7), sf::Vector2i(64,64), (mTextures->getTexture(sGHOST))));
 }
 
 void Game::removeEnemy(int pIndex)
@@ -229,7 +229,7 @@ void Game::input(sf::Event *pEvent)
 		{
 		}
 		
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			if(mBall.getVelocity().y == 0)
 				mBall.setVelocity(mPlayer.getVelocity().x, -4);
