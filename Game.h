@@ -22,28 +22,37 @@ private:
 	Ball mBall;
 	std::vector<Enemy*> mEnemies;
 	std::vector<Grave*> mGraves;
+
 	Textures *mTextures;
+	//drawing stuff
 	sf::Sprite mBackground;
+	sf::Font mFont;
+	sf::Text mTextLives;
+	sf::Text mTextTown;
+
 	int mNumofLives;
 	int mTownHealth;
 	int mCurrentLevel;
 	int mMaxLevel;
-	sf::Font mFont;
-	sf::Text mTextLives;
-	sf::Text mTextTown;
 public:
+
 	Game(Textures *pSpriteSheet);
 	virtual ~Game(void);
 
 	void update();
 	void draw(sf::RenderWindow *window, float pInterpolation);
 	void input(sf::Event *pEvent);
+
 	void addEnemy(float pX, float pY);
 	void removeEnemy(int pIndex);
 	void addGrave(float pX, float pY, float pReleaseTimeMin, float pReleaseTimeMax);
 	void removeGrave(int pIndex);
+
 	void quit();
 	void nextlevel();
 	void reset();
+
+	//TODO: should probably have an init
+	void init();
 };
 

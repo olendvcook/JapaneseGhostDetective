@@ -13,8 +13,8 @@ AnimatedSprite::AnimatedSprite(
 		mSprite(*pTexture),
 		mPosition(pPosition),
 		mVelocity(pVelocity),
-		mSize(pSize),
 		mSpriteSize(pSize),
+		mSize(pSize),
 		mAngle(pAngle),
 		mAngularVelocity(pAngularVelocity),
 		mCurrentAnimation(0),
@@ -24,12 +24,12 @@ AnimatedSprite::AnimatedSprite(
 	mSprite.setOrigin(pSize.x/2, pSize.y/2);
 }
 
-
 AnimatedSprite::~AnimatedSprite(void)
 {
 }
 
 //basic update method that extended classes should call if overriding
+//because this will handle animation update
 void AnimatedSprite::update()
 {
 	//move through Animation array if animating
@@ -52,16 +52,18 @@ void AnimatedSprite::update()
 //takes in pointer to window and pInterpolation (which is a variable to guess where the sprite should be between updates)
 void AnimatedSprite::draw(sf::RenderWindow *window, float pInterpolation)
 {
+	//set sprite position to position of the actual entity + interpolation
 	mSprite.setPosition(mPosition.x + (mVelocity.x * pInterpolation), mPosition.y + (mVelocity.y * pInterpolation)); 
 
 	//only draw the certain sprite needed from the sprite sheet
-	mSprite.setTextureRect(sf::IntRect(mAnimations[mCurrentAnimation].getCurrentFrame() * mSize.x, 
-		mCurrentAnimation * mSize.y, 
-		mSize.x, mSize.y));
+	mSprite.setTextureRect(sf::IntRect(mAnimations[mCurrentAnimation].getCurrentFrame() * mSpriteSize.x, 
+		mCurrentAnimation * mSpriteSize.y, 
+		mSpriteSize.x, mSpriteSize.y));
 	window->draw(mSprite);
 }
 
 //switch between animating and not animating
+//this could've been one method but it would've been harder to tell if starting or stopping
 void AnimatedSprite::startAnimation()
 {
 	mIsAnimating = true;

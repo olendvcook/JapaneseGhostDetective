@@ -12,7 +12,6 @@ Animation::Animation(int pMaxFrames, float pAnimateSpeed, bool pIsEscalator) :
 	isUpOrDown = true;
 }
 
-
 Animation::~Animation(void)
 {
 }
@@ -22,6 +21,7 @@ void Animation::animate()
 {
 	//if its time to iterate based on animation speed
 	if(mClock.getElapsedTime().asSeconds() > mAnimateSpeed){
+		//escalator is what im calling 1234321 instead of 12341234
 		if(isEscalator)
 		{
 			if(isUpOrDown)

@@ -1,5 +1,10 @@
 #pragma once
 #include "animatedsprite.h"
+
+//Class for the ball Entity
+//Extends AnimatedSprite
+//Doesn't overload much
+
 class Ball :
 	public AnimatedSprite
 {

@@ -106,43 +106,6 @@ void Menu::draw(sf::RenderWindow *window)
 	}
 }
 
-//TODO: REWORK THIS ENTIRE METHOD CUS IT SUCKS
-//get input and do stuff based on that
-/*
-void Menu::input(sf::Event *pEvent, sf::RenderWindow *pWindow)
-{
-	sf::Vector2i mousePos = sf::Mouse::getPosition(*pWindow);
-	//TODO: ONLY INPUT CERTAIN BUTTONS BASED ON STATE
-	switch(pEvent->type)
-	{
-	case(sf::Event::MouseButtonPressed):
-		//for each button
-		for(int i=0; i < mButtons.size(); i++)
-		{
-			//check if mouse is over button (bounds checking)
-			if(pEvent->mouseButton.button == sf::Mouse::Left && mButtons.at(i).getBounds().contains(mousePos.x, mousePos.y))
-			{
-				mButtons.at(i).ButtonEvent();
-			}
-		}
-		break;	
-	case(sf::Event::MouseLeft):
-	case(sf::Event::MouseButtonReleased):
-		for(int i=0; i < mButtons.size(); i++)
-		{
-			if(mButtons.at(i).isPressed())
-			{
-				//tell the button to do its stuff
-				//we dont actually do anyhting on button press down, we wait till click release
-				//to do stuff
-				mButtons.at(i).ButtonEvent();
-			}
-		}
-		break;
-	}
-}
-*/
-
 //get input and do stuff based on that
 void Menu::input(sf::Event *pEvent, sf::RenderWindow *pWindow)
 {

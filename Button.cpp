@@ -4,7 +4,7 @@
 //just draws and does some action when pressed
 
 Button::Button(sf::Vector2i pPosition, sf::Vector2i pSize, sf::Texture *pTexture, BUTTONTYPE pButtonType) :
-	mSize(pSize),
+	mSpriteSize(pSize),
 	mButtonType(pButtonType),
 	mSprite(*pTexture),
 	mPressed(false)
@@ -18,6 +18,7 @@ Button::Button(sf::Vector2i pPosition, sf::Vector2i pSize, sf::Texture *pTexture
 Button::~Button(void)
 {
 }
+
 //do what the button is designed to do
 void Button::ButtonEvent()
 {
@@ -62,7 +63,7 @@ void Button::ButtonEvent()
 
 void Button::Draw(sf::RenderWindow *window)
 {
-	mSprite.setTextureRect(sf::IntRect(mButtonType * mSize.x, mPressed * mSize.y, mSize.x, mSize.y));
+	mSprite.setTextureRect(sf::IntRect(mButtonType * mSpriteSize.x, mPressed * mSpriteSize.y, mSpriteSize.x, mSpriteSize.y));
 	window->draw(mSprite);
 }
 

@@ -9,6 +9,7 @@ private:
 	int mCurrentFrame;
 	int mMaxFrames;
 	bool isUpOrDown;
+	//escalator is what im calling 1234321 instead of 12341234
 	bool isEscalator;
 
 	//control how fast to iterate to play animations faster/slower

@@ -43,7 +43,6 @@ Game::~Game(void)
 {
 }
 
-//TODO: paramertertize this method to input the valuves to be used for the enemies
 void Game::addEnemy(float pX, float pY)
 {
 	//if no delete before removed u get memory leaks
@@ -52,10 +51,12 @@ void Game::addEnemy(float pX, float pY)
 
 void Game::removeEnemy(int pIndex)
 {
+	//so delete :D
 	delete(mEnemies.at(pIndex));
 	mEnemies.erase((mEnemies.begin() + pIndex));
 }
 
+//same for every vector/ add and deletes
 void Game::addGrave(float pX, float pY, float pReleaseTimeMin, float pReleaseTimeMax)
 {
 	mGraves.insert(mGraves.begin(), new Grave(sf::Vector2f(pX,pY), sf::Vector2f(0,0), sf::Vector2i(64,80),(mTextures->getTexture(sGRAVE)), pReleaseTimeMin, pReleaseTimeMax));
@@ -70,7 +71,7 @@ void Game::removeGrave(int pIndex)
 //TODO: think of a way to make Game update not so beastly and hacky, maybe some kind of event system
 void Game::update()
 {
-	//call each entity update
+	//update text
 	std::stringstream ss;
 	ss << "Lives: " << mNumofLives;
 	mTextLives.setString(ss.str());
@@ -81,6 +82,9 @@ void Game::update()
 
 	mPlayer.update();
 
+	mBall.update();
+
+	//while ball isnt moving make it follow paddle
 	if(mBall.getVelocity().y == 0)
 	{
 		mBall.setPosition(mPlayer.getPosition().x, WindowHeight -60);
@@ -89,12 +93,17 @@ void Game::update()
 	//if ball hits paddle
 	if(mBall.getBounds().intersects(mPlayer.getBounds()))
 	{
-		//120 degrees in radians
+		//angle in radians
 		float mMaxBounceAngle = 3.0943951;
+		//get the relative intersect X value
+		//this means how far away the center of ball is from center of paddle
 		float relativeIntersectX = -(mPlayer.getPosition().x - mBall.getPosition().x);
+		//normalize it
 		float normalizedRelativeIntersectionX = (relativeIntersectX/mPlayer.getSize().x/2);
+		//calculate bounce off of the normalized intersection
 		float bounceAngle = normalizedRelativeIntersectionX * mMaxBounceAngle;
 
+		//calculate new speeds
 		float newSpeedX = (4 * sin(bounceAngle) + (mPlayer.getVelocity().x * 0.1));
 		float newSpeedY = 4 * -cos(bounceAngle);
 
@@ -102,6 +111,7 @@ void Game::update()
 
 	}
 
+	//for each enemy in enemies
 	for(int i = 0; i < mEnemies.size(); i++)
 	{	
 
@@ -114,7 +124,7 @@ void Game::update()
 			removeEnemy(i);
 			continue;
 		}
-		//kill enemy if off screen
+		//kill enemy if off screen X Direction
 		if(mEnemies[i]->getPosition().x > WindowWidth || mEnemies[i]->getPosition().x < 0)
 		{
 			removeEnemy(i);
@@ -127,14 +137,16 @@ void Game::update()
 			continue;
 		}
 
-		//colision with ball
+		//enemy colision with ball
 		if(mBall.getBounds().intersects(mEnemies[i]->getBounds()))
 		{
+			//if ball position is on the sides of enemy bounce in X direction
 			if(mBall.getPosition().y >= mEnemies[i]->getPosition().y - mEnemies[i]->getSize().y/2 &&
 				mBall.getPosition().y <= mEnemies[i]->getPosition().y + mEnemies[i]->getSize().y/2)
 			{
 				mBall.setVelocity(- mBall.getVelocity().x, mBall.getVelocity().y);
 			}
+			//else if ball is top or bottom bounce in Y direction
 			else
 			{
 				mBall.setVelocity(mBall.getVelocity().x, -mBall.getVelocity().y);
@@ -144,10 +156,12 @@ void Game::update()
 		}
 	}
 
+	//foreach grave in graves
 	for(int i = 0; i < mGraves.size(); i++)
 	{
 		mGraves[i]->update();
 
+		//check if its time to make a ghost
 		if(mGraves[i]->checkIfTime())
 		{
 			addEnemy(mGraves[i]->getPosition().x, mGraves[i]->getPosition().y);
@@ -156,11 +170,13 @@ void Game::update()
 		//colision with ball
 		if(mBall.getBounds().intersects(mGraves[i]->getBounds()))
 		{
+			//if ball position is on the sides of enemy bounce in X direction
 			if(mBall.getPosition().y >= mGraves[i]->getPosition().y - mGraves[i]->getSize().y/2 &&
 				mBall.getPosition().y <= mGraves[i]->getPosition().y + mGraves[i]->getSize().y/2)
 			{
 				mBall.setVelocity(- mBall.getVelocity().x, mBall.getVelocity().y);
 			}
+			//else if ball is top or bottom bounce in Y direction
 			else
 			{
 				mBall.setVelocity(mBall.getVelocity().x, -mBall.getVelocity().y);
@@ -169,6 +185,7 @@ void Game::update()
 		}
 	}
 	
+	//if ball falls out the bottom of screen
 	if(mBall.getPosition().y >= WindowHeight - mBall.getSize().y)
 	{
 		mNumofLives--;
@@ -183,8 +200,7 @@ void Game::update()
 		}
 	}
 
-	mBall.update();
-
+	//if no more enemies
 	if(mGraves.size() <= 0 && mEnemies.size() <= 0)
 	{
 		nextlevel();
@@ -196,6 +212,7 @@ void Game::update()
 }
 
 //just call draw of all entities
+//entities drawn first will be back layers
 void Game::draw(sf::RenderWindow *window, float pInterpolation)
 {
 	window->draw(mBackground);
@@ -228,12 +245,12 @@ void Game::input(sf::Event *pEvent)
 	{
 	//change state of player based on what key is pressed
 	case(sf::Event::KeyPressed):
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			mPlayer.setIsLeft(true);
 		}
 		
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			mPlayer.setIsRight(true);
 		}
@@ -242,13 +259,13 @@ void Game::input(sf::Event *pEvent)
 		{
 		}
 		
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		//release ball
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
 			if(mBall.getVelocity().y == 0)
 				mBall.setVelocity(mPlayer.getVelocity().x, -4);
 		}
 
-		//created to test for memory leaks
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		{
 			mGameState = gPAUSED;
@@ -279,12 +296,10 @@ void Game::quit()
 	}
 }
 
+//level handler basically
 void Game::nextlevel()
 {
 	mCurrentLevel++;
-
-	mGraves.clear();
-	mGraves.shrink_to_fit();
 
 	if(mCurrentLevel >= mMaxLevel)
 	{
@@ -293,6 +308,7 @@ void Game::nextlevel()
 	}
 	else
 	{
+		//make the level
 		switch(mCurrentLevel)
 		{
 		case(1):
@@ -350,8 +366,7 @@ void Game::nextlevel()
 			addGrave(200,300,8,10);
 			addGrave(440,300,8,10);
 			break;
-		case(7):
-			
+		case(7):		
 			addGrave(320,100,5,7);
 			addGrave(440,100,6,9);
 			addGrave(200,100,6,9);
@@ -363,8 +378,7 @@ void Game::nextlevel()
 			addGrave(80,200,8,10);
 			addGrave(560,200,8,10);
 			break;
-		case(8):
-			
+		case(8):		
 			addGrave(320,100,5,7);
 			addGrave(440,100,6,9);
 			addGrave(200,100,6,9);
@@ -379,8 +393,7 @@ void Game::nextlevel()
 			addGrave(440,300,8,10);
 			addGrave(200,300,8,10);
 			addGrave(80,300,8,10);
-			addGrave(560,300,8,10);
-			
+			addGrave(560,300,8,10);		
 			break;
 		}
 	}

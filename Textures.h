@@ -7,6 +7,8 @@
 //Class that holds all the spritesheets so that each entity does not need to store a copy
 //Entitie Sprites hold pointers to these spritesheets
 
+//TODO:: different texture objects for different states?
+
 //spritesheet type
 enum SPRITESHEETS { sBUTTONS, sPLAYER, sGHOST, sBACKGROUND, sGAMEOVER, sGRAVE, sGAMEBACKGROUND, sPAUSED, sCOMPLETE, sBALL};
 class Textures

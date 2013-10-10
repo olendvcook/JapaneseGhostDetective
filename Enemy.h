@@ -2,6 +2,9 @@
 #include "animatedsprite.h"
 
 //Example of extended Animated Sprite class to create simple enemies
+//Should extend this for different types of enemies
+
+//in this game ghost is implimented in enemy because ghost is so simple
 
 //update depending on what state enemy is in
 //TODO: is states for enemies as dumb as states for player?

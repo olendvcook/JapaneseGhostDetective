@@ -12,13 +12,16 @@ class AnimatedSprite
 protected:
 	sf::Vector2f mPosition;
 	sf::Vector2f mVelocity;
-	sf::Vector2i mSize;
-	sf::Vector2i mSpriteSize;
 	//for rotation
 	float mAngle;
 	float mAngularVelocity;
-	//Sprite that hold and displays
+	//Sprite that hold and displays the texture
 	sf::Sprite mSprite;
+	//SpriteSize is used to determine size of the sprite on each spritesheet
+	//size should be scaled with the sprite for collision stuff/ actual ingame size
+	sf::Vector2i mSize;
+	sf::Vector2i mSpriteSize;
+
 
 	//store which array of animation is currently being used
 	int mCurrentAnimation;
@@ -27,6 +30,7 @@ protected:
 
 	//array of class Animation to store all the different Animations like Idle/Walk/Jump
 	std::vector<Animation> mAnimations;
+
 public:
 	AnimatedSprite(
 		sf::Vector2f pPosition, 
@@ -49,9 +53,12 @@ public:
 	virtual void setCurrentAnimation(int pRow) { mCurrentAnimation = pRow; }
 	//get bounds in global space for use in collision detection
 	virtual sf::FloatRect getBounds() { return mSprite.getGlobalBounds(); }
+
 	virtual sf::Vector2f getPosition() { return mPosition; }
-	virtual sf::Vector2i getSize() { return mSpriteSize; }
+	virtual sf::Vector2i getSize() { return mSize; }
 	virtual sf::Vector2f getVelocity() { return mVelocity; }
 	virtual void setVelocity(float pX, float pY) { mVelocity = sf::Vector2f(pX,pY); };
+	virtual void setVelocity(sf::Vector2f pVelocity) { mVelocity = pVelocity; };
 	virtual void setPosition(float pX, float pY) { mPosition = sf::Vector2f(pX,pY); };
+	virtual void setPosition(sf::Vector2f pPosition) { mPosition = pPosition; };
 };

@@ -9,7 +9,7 @@ enum BUTTONTYPE { bSTART, bCREDITS, bBACK, bOPTIONS, bTUTORIAL, bGAMEOVER };
 class Button
 {
 private:
-	sf::Vector2i mSize;
+	sf::Vector2i mSpriteSize;
 	sf::Sprite mSprite;
 	BUTTONTYPE mButtonType;
 	bool mPressed;

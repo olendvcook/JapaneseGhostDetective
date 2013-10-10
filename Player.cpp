@@ -13,20 +13,18 @@ Player::Player(
 	isRight = false;
 	//add animations idle/walk/jump
 	mAnimations.insert(mAnimations.begin(), Animation(4, 0.2, true));
-	//mSprite.scale(4,4);
 	//start playing idle animation
 	AnimatedSprite::startAnimation();
-	mPlayerState = pNONE;
 }
 
 Player::~Player(void)
 {
 }
 
-//update depending on player state
+//all this to just move left and right with acceleration
 void Player::update()
 {
-	//right now just moves and switches animations
+	//move right
 	if(isRight && !isLeft)
 	{
 		if(mVelocity.x >= mMaxSpeed)
@@ -38,6 +36,7 @@ void Player::update()
 			mVelocity.x += mSpeed;
 		}
 	}
+	//move left
 	else if(isLeft && !isRight)
 	{
 		if(abs(mVelocity.x) >= abs(mMaxSpeed))
@@ -49,6 +48,7 @@ void Player::update()
 			mVelocity.x -= mSpeed;
 		}
 	}
+	//come to a stop
 	else
 	{
 		if (mVelocity.x > 0)
@@ -59,14 +59,15 @@ void Player::update()
 			mVelocity.x = 0;
 	}
 
-	if(mPosition.x <= 0 + mSpriteSize.x/2)
+	//check bounds with right and left side of screen
+	if(mPosition.x <= 0 + mSize.x/2)
 	{
-		mPosition.x = 1 + mSpriteSize.x/2;
+		mPosition.x = 1 + mSize.x/2;
 		mVelocity.x = -(mVelocity.x + mSpeed);
 	}
-	if(mPosition.x >= WindowWidth - 0 - mSpriteSize.x/2)
+	if(mPosition.x >= WindowWidth - 0 - mSize.x/2)
 	{
-		mPosition.x = WindowWidth - 1 - mSpriteSize.x/2;
+		mPosition.x = WindowWidth - 1 - mSize.x/2;
 		mVelocity.x = -(mVelocity.x - mSpeed);
 	}
 	//call superclass update
