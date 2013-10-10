@@ -245,7 +245,7 @@ void Game::input(sf::Event *pEvent)
 	{
 	//change state of player based on what key is pressed
 	case(sf::Event::KeyPressed):
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			mPlayer.setIsLeft(true);
 		}
